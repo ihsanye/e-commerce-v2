@@ -5,7 +5,7 @@ function App() {
 
   return (
     <div>
-      ihsan
+
       <RouterConfig />
     </div>
   )
