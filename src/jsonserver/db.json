@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "username": "ihs",
+      "password": "123ihs123"
+    },
+    {
+      "id": "38a0",
+      "username": "sfa",
+      "password": "123sfa123"
+    },
+    {
+      "id": "0002",
+      "username": "brky",
+      "password": "123000321"
+    }
+  ]
+}

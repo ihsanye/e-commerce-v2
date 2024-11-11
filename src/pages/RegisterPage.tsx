@@ -7,17 +7,38 @@ import { FaLock } from 'react-icons/fa'
 import { Button } from '@mui/material'
 import { useFormik } from 'formik'
 import { registerPageSchema } from '../schemas/RegisterPageSchema'
+import { UserType } from '../types/Types'
+import RegisterPageService from '../services/RegisterPageService'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 function RegisterPage() {
+
+    const navigate = useNavigate();
+
+    const submit = async (values: any, actions: any) => {
+        try {
+            const payload: UserType = {
+                username: values.username,
+                password: values.password
+            }
+            const response = await RegisterPageService.register(payload)
+            if (response) {
+                clear()
+                toast.success("Kaydedildi")
+                navigate("/login")
+            }
+        } catch (error) {
+            toast.error("Hata Olustu")
+        }
+    }
 
     const { values, handleChange, handleSubmit, resetForm, errors } = useFormik({
         initialValues: {
             username: '',
             password: '',
         },
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
-        },
+        onSubmit: submit,
         validationSchema: registerPageSchema
     });
 
@@ -28,7 +49,7 @@ function RegisterPage() {
     return (
         <div className='register'>
             <div className='main-div'>
-                <form action="">
+                <form onSubmit={handleSubmit}>
                     <div className='form-div'>
                         <TextField id='username' placeholder='Username'
                             value={values.username}
@@ -57,7 +78,7 @@ function RegisterPage() {
                             helperText={errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
                             variant='standard' />
                         <div>
-                            <Button>Kaydol</Button>
+                            <Button type='submit' >Kaydol</Button>
                             <Button onClick={clear} >Temizle</Button>
                         </div>
                     </div>
