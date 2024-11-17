@@ -7,11 +7,32 @@ import { FaLock } from 'react-icons/fa'
 import { Button } from '@mui/material'
 import { useFormik } from 'formik'
 import { registerPageSchema } from '../schemas/RegisterPageSchema'
+import loginPageService from '../services/LoginPageService'
 import '../css/LoginPage.css'
+import { useDispatch } from 'react-redux'
+import { setLoading } from '../redux/appSlice'
+import { UserType } from '../types/Types'
+import { toast } from 'react-toastify'
 
 function LoginPage() {
 
-    const submit = () => { }
+    const dispatch = useDispatch();
+
+    const submit = async (values: any, action: any) => {
+        try {
+            dispatch(setLoading(true));
+            const response: UserType[] = await loginPageService.login();
+            if (response) {
+
+            }
+        } catch (error) {
+            toast.error("Giris yapilirken hata olustu: " + error)
+        }
+        finally {
+            dispatch(setLoading(false))
+        }
+
+    }
 
     const { values, handleChange, handleSubmit, resetForm, errors } = useFormik({
         initialValues: {
@@ -28,7 +49,7 @@ function LoginPage() {
     return (
         <div className='login'>
             <div className='main-div'>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className='form-div'>
                         <TextField id='username' placeholder='Username'
                             value={values.username}

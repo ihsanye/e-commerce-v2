@@ -19,8 +19,10 @@ function RegisterPage() {
     const submit = async (values: any, actions: any) => {
         try {
             const payload: UserType = {
+                id: String(Math.floor(Math.random() * 99999)),
                 username: values.username,
-                password: values.password
+                password: values.password,
+                balance: 1000
             }
             const response = await RegisterPageService.register(payload)
             if (response) {
