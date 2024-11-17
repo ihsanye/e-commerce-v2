@@ -2,7 +2,8 @@
   "users": [
     {
       "username": "ihs",
-      "password": "123ihs123"
+      "password": "123ihs123",
+      "id": "5a48"
     },
     {
       "id": "38a0",
@@ -12,7 +13,13 @@
     {
       "id": "0002",
       "username": "brky",
-      "password": "123000321"
+      "password": "123000"
+    },
+    {
+      "id": "97745",
+      "username": "den0",
+      "password": "demo0",
+      "balance": 1000
     }
   ]
 }

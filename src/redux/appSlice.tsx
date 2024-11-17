@@ -18,10 +18,13 @@ export const appSlice = createSlice({
     reducers: {
         setLoading: (state: AppSliceType, action: PayloadAction<boolean>) => {
             state.loading = action.payload
+        },
+        setCurrentUser: (state: AppSliceType, action: PayloadAction<UserType>) => {
+            state.currentUser = action.payload
         }
     },
 })
 
-export const { setLoading } = appSlice.actions
+export const { setLoading, setCurrentUser } = appSlice.actions
 
 export default appSlice.reducer

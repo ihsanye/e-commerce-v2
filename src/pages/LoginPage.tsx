@@ -10,20 +10,45 @@ import { registerPageSchema } from '../schemas/RegisterPageSchema'
 import loginPageService from '../services/LoginPageService'
 import '../css/LoginPage.css'
 import { useDispatch } from 'react-redux'
-import { setLoading } from '../redux/appSlice'
+import { setCurrentUser, setLoading } from '../redux/appSlice'
 import { UserType } from '../types/Types'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+
+interface CheckUserType {
+    result: boolean,
+    currentUser: UserType | null
+}
 
 function LoginPage() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const checkUser = (userList: UserType[], username: string, password: string): CheckUserType => {
+        const response: CheckUserType = { result: false, currentUser: null }
+        userList.forEach((user: UserType) => {
+            if (user.username === username && user.password === password) {
+                response.result = true;
+                response.currentUser = user;
+            }
+        })
+        return response;
+    }
 
     const submit = async (values: any, action: any) => {
         try {
             dispatch(setLoading(true));
             const response: UserType[] = await loginPageService.login();
             if (response) {
-
+                const checkUserResponse: CheckUserType = checkUser(response, values.username, values.password)
+                if (checkUserResponse.result && checkUserResponse.currentUser) {
+                    dispatch(setCurrentUser(checkUserResponse.currentUser));
+                    localStorage.setItem("currentUser", JSON.stringify(checkUserResponse.currentUser));
+                    navigate("/");
+                } else {
+                    toast.error("Kullanici adi veya sifre hatali")
+                }
             }
         } catch (error) {
             toast.error("Giris yapilirken hata olustu: " + error)
