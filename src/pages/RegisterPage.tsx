@@ -1,4 +1,3 @@
-import React from 'react'
 import "../css/RegisterPage.css"
 import TextField from '@mui/material/Textfield'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -16,7 +15,7 @@ function RegisterPage() {
 
     const navigate = useNavigate();
 
-    const submit = async (values: any, actions: any) => {
+    const submit = async (values: any) => {
         try {
             const payload: UserType = {
                 id: String(Math.floor(Math.random() * 99999)),

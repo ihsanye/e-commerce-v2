@@ -1,4 +1,3 @@
-import React from 'react'
 import "../css/RegisterPage.css"
 import TextField from '@mui/material/Textfield'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -36,7 +35,7 @@ function LoginPage() {
         return response;
     }
 
-    const submit = async (values: any, action: any) => {
+    const submit = async (values: any) => {
         try {
             dispatch(setLoading(true));
             const response: UserType[] = await loginPageService.login();

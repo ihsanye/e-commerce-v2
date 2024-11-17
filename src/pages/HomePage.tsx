@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { UserType } from '../types/Types';
 import { setCurrentUser } from '../redux/appSlice';
