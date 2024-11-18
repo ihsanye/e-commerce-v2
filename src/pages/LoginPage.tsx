@@ -1,9 +1,8 @@
 import "../css/RegisterPage.css"
-import TextField from '@mui/material/Textfield'
 import InputAdornment from '@mui/material/InputAdornment'
 import { IoPersonCircleSharp } from 'react-icons/io5'
 import { FaLock } from 'react-icons/fa'
-import { Button } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import { registerPageSchema } from '../schemas/RegisterPageSchema'
 import loginPageService from '../services/LoginPageService'

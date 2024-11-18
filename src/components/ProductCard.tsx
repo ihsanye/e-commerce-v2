@@ -19,12 +19,15 @@ function ProductCard(props: ProductCardProps) {
             <img src={image} style={{ maxWidth: '100px', maxHeight: '150px', cursor: 'pointer' }} />
             <CardContent sx={{ height: '250px' }}>
                 <Typography gutterBottom variant="h5" component="div">
-                    {title.substring(0, 60)}...
+                    {title.substring(0, 50)}...
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {description.substring(0, 180)}...
+                    {description.substring(0, 150)}...
                 </Typography>
             </CardContent>
+            <div>
+                <h2>$ {price}</h2>
+            </div>
             <CardActions>
                 <Button size="small" variant='outlined' color='info' >Detay</Button>
             </CardActions>
