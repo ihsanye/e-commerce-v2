@@ -6,6 +6,7 @@ import productService from '../services/ProductService';
 import { toast } from 'react-toastify';
 import { RootState } from '../redux/store';
 import ProductCard from '../components/ProductCard';
+import Category from '../components/Category';
 
 function HomePage() {
 
@@ -24,13 +25,10 @@ function HomePage() {
         } finally {
             dispatch(setLoading(false))
         }
-
-
     }
     useEffect(() => {
         getAllProducts()
     }, [])
-
 
     useEffect(() => {
         const result = localStorage.getItem("currentUser")
@@ -41,12 +39,15 @@ function HomePage() {
     }, [])
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
-            {
-                products && products.map((product: ProductType, index: number) => (
-                    <ProductCard key={index} product={product} />
-                ))
-            }
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div><Category /></div>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {
+                    products && products.map((product: ProductType, index: number) => (
+                        <ProductCard key={index} product={product} />
+                    ))
+                }
+            </div>
         </div>
     )
 }
