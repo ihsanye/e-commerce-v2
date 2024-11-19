@@ -40,7 +40,7 @@ function HomePage() {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div><Category /></div>
+            <div style={{ maxWidth: '150px' }}><Category /></div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
                 {
                     products && products.map((product: ProductType, index: number) => (
