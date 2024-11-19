@@ -9,8 +9,10 @@ import IconButton from '@mui/material/IconButton';
 import EagleLogo from '../assets/eagle.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '../redux/appSlice';
+import { filterProducts, setCurrentUser, setProducts } from '../redux/appSlice';
 import { toast } from 'react-toastify';
+import productService from '../services/ProductService';
+import { ProductType } from '../types/Types';
 
 function Navbar() {
 
@@ -22,6 +24,19 @@ function Navbar() {
         dispatch(setCurrentUser(null));
         navigate('/login');
         toast.success('Basariyla cikis yapildi')
+    }
+
+    const handleFilter = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            if (e.target.value) {
+                dispatch(filterProducts(e.target.value))
+            } else {
+                const products: ProductType[] = await productService.getAllProducts();
+                dispatch(setProducts(products));
+            }
+        } catch (error) {
+            toast.error("Filtrelerken hata")
+        }
     }
 
     return (
@@ -40,9 +55,10 @@ function Navbar() {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate('/')}>
                     EAGLE SHOP
                 </Typography>
-                <TextField id='searchInput'
+                <TextField
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFilter(e)}
+                    id='searchInput'
                     placeholder='Search'
-
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position='start'>
