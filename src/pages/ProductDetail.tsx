@@ -6,6 +6,7 @@ import { setLoading } from '../redux/appSlice';
 import { toast } from 'react-toastify';
 import productService from '../services/ProductService';
 import { ProductType } from '../types/Types';
+import { addProductToBasket } from '../redux/basketSlice';
 
 function ProductDetail() {
 
@@ -24,10 +25,19 @@ function ProductDetail() {
         } finally { dispatch(setLoading(false)) }
     }
 
+    const addBasket = () => {
+        if (product) {
+            const payload: ProductType = {
+                ...product,
+                count: count
+            }
+            dispatch(addProductToBasket(payload));
+        }
+    }
+
     useEffect(() => {
         getProductById(Number(productId));
     }, [])
-
 
     return (
         <Container maxWidth='lg'>
@@ -44,7 +54,7 @@ function ProductDetail() {
                             <span onClick={() => setCount(count + 1)} style={{ fontSize: '36px', fontWeight: 'bold', cursor: 'pointer', margin: '0 10px 0 20px' }}>+</span>
                             <span style={{ fontSize: '18px' }}>{count}</span>
                             <span onClick={() => count > 1 ? setCount(count - 1) : null} style={{ fontSize: '36px', fontWeight: 'bold', cursor: 'pointer', margin: '0 20px 0 10px' }}>-</span>
-                            <Button color='success' variant='outlined' >Sepete Ekle</Button>
+                            <Button onClick={addBasket} color='success' variant='outlined' >Sepete Ekle</Button>
                         </div>
                     </div>
                 </div>

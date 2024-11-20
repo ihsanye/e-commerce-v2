@@ -8,18 +8,20 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import EagleLogo from '../assets/eagle.png';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { filterProducts, setCurrentUser, setProducts } from '../redux/appSlice';
 import { toast } from 'react-toastify';
 import productService from '../services/ProductService';
 import { ProductType } from '../types/Types';
 import { FaShoppingBasket } from 'react-icons/fa';
 import { Badge } from '@mui/material';
+import { RootState } from '../redux/store';
 
 function Navbar() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { basket } = useSelector((state: RootState) => state.basket)
 
     const logout = () => {
         localStorage.removeItem("currentUser");
@@ -68,7 +70,7 @@ function Navbar() {
                         )
                     }}
                     variant='standard' />
-                <Badge badgeContent={4} color="secondary" style={{ margin: '0 8px 0 12px' }}>
+                <Badge badgeContent={basket.length} color="secondary" style={{ margin: '0 8px 0 12px' }}>
                     <FaShoppingBasket style={{ fontSize: '18px', cursor: 'pointer' }} />
                 </Badge>
                 <Button sx={{ textTransform: 'none' }} color="inherit" onClick={logout} >Cikis Yap</Button>
