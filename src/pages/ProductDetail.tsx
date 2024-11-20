@@ -12,6 +12,7 @@ function ProductDetail() {
     const { productId } = useParams();
     const dispatch = useDispatch();
     const [product, setProduct] = useState<ProductType | null>();
+    const [count, setCount] = useState<number>(0);
 
     const getProductById = async (productId: number) => {
         try {
@@ -40,9 +41,9 @@ function ProductDetail() {
                         <p>{product.description}</p>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <h2>$ {product.price}</h2>
-                            <span style={{ fontSize: '36px', fontWeight: 'bold', cursor: 'pointer', margin: '0 10px 0 20px' }}>+</span>
-                            <span style={{ fontSize: '18px' }}>0</span>
-                            <span style={{ fontSize: '36px', fontWeight: 'bold', cursor: 'pointer', margin: '0 20px 0 10px' }}>-</span>
+                            <span onClick={() => setCount(count + 1)} style={{ fontSize: '36px', fontWeight: 'bold', cursor: 'pointer', margin: '0 10px 0 20px' }}>+</span>
+                            <span style={{ fontSize: '18px' }}>{count}</span>
+                            <span onClick={() => count > 1 ? setCount(count - 1) : null} style={{ fontSize: '36px', fontWeight: 'bold', cursor: 'pointer', margin: '0 20px 0 10px' }}>-</span>
                             <Button color='success' variant='outlined' >Sepete Ekle</Button>
                         </div>
                     </div>

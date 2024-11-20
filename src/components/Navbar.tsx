@@ -13,6 +13,8 @@ import { filterProducts, setCurrentUser, setProducts } from '../redux/appSlice';
 import { toast } from 'react-toastify';
 import productService from '../services/ProductService';
 import { ProductType } from '../types/Types';
+import { FaShoppingBasket } from 'react-icons/fa';
+import { Badge } from '@mui/material';
 
 function Navbar() {
 
@@ -66,6 +68,9 @@ function Navbar() {
                         )
                     }}
                     variant='standard' />
+                <Badge badgeContent={4} color="secondary" style={{ margin: '0 8px 0 12px' }}>
+                    <FaShoppingBasket style={{ fontSize: '18px', cursor: 'pointer' }} />
+                </Badge>
                 <Button sx={{ textTransform: 'none' }} color="inherit" onClick={logout} >Cikis Yap</Button>
             </Toolbar>
         </AppBar>
