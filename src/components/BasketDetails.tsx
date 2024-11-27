@@ -2,24 +2,46 @@ import React, { useEffect } from 'react'
 import { Button, Drawer } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
-import { setDrawer } from '../redux/appSlice';
-import { ProductType } from '../types/Types';
-import { calculateBasket } from '../redux/basketSlice';
+import { setDrawer, updateBalance } from '../redux/appSlice';
+import { ProductType, UserType } from '../types/Types';
+import { calculateBasket, removeProductFromBasket, setBasket } from '../redux/basketSlice';
+import { toast } from 'react-toastify';
 
 function BasketDetails() {
 
     const dispatch = useDispatch();
+    const { drawer, currentUser } = useSelector((state: RootState) => state.app);
     const { basket, totalAmount } = useSelector((state: RootState) => state.basket);
 
     useEffect(() => {
         dispatch(calculateBasket())
-    }, [])
+    }, [basket])
 
     const closeDrawer = () => {
         dispatch(setDrawer(false));
     }
 
-    const { drawer } = useSelector((state: RootState) => state.app)
+    const removeProduct = (productId: number) => {
+        dispatch(removeProductFromBasket(productId))
+    }
+
+    const buy = () => {
+        if (currentUser?.balance && currentUser.balance < totalAmount) {
+            toast.warn('Bakiye yetersiz');
+            return;
+        }
+        if (currentUser?.balance) {
+            const remainingTotal = currentUser.balance - totalAmount;
+            const payload: UserType = {
+                ...currentUser,
+                balance: remainingTotal
+            }
+            dispatch(updateBalance(payload));
+            dispatch(setBasket([]));
+            localStorage.removeItemItem('basket');
+            toast.success('Urun basariyla satin alindi');
+        }
+    }
 
     return (
         <div>
@@ -33,13 +55,14 @@ function BasketDetails() {
                             </div>
                             <div style={{ marginRight: '15px' }}>{product.count} adet </div>
                             <div style={{ fontWeight: 'bold', width: '60px' }}>$ {Number(product.price) * Number(product.count)}</div>
-                            <div><Button size='medium' sx={{ textTransform: 'none' }} >Sil</Button> </div>
+                            <div><Button onClick={() => removeProduct(product.id)} size='medium' sx={{ textTransform: 'none' }} >Sil</Button> </div>
                         </div>
                     </div>
                 ))}
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex', margin: '0 16px 8px 0' }}>
-                    Toplam Tutar: $ {totalAmount}
+                    Toplam Tutar: $ {totalAmount.toFixed(2)}
                 </div>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'flex' }}><Button onClick={buy} size='small' sx={{ textTransform: 'none' }} variant='contained' color='success'>Satin Al</Button></div>
             </Drawer>
         </div>
     )
