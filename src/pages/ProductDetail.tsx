@@ -13,7 +13,7 @@ function ProductDetail() {
     const { productId } = useParams();
     const dispatch = useDispatch();
     const [product, setProduct] = useState<ProductType | null>();
-    const [count, setCount] = useState<number>(0);
+    const [count, setCount] = useState<number>(1);
 
     const getProductById = async (productId: number) => {
         try {
@@ -32,6 +32,7 @@ function ProductDetail() {
                 count: count
             }
             dispatch(addProductToBasket(payload));
+            toast.success('Urun sepetinize basariyla eklendi')
         }
     }
 

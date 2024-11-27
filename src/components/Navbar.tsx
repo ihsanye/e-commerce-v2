@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import EagleLogo from '../assets/eagle.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterProducts, setCurrentUser, setProducts } from '../redux/appSlice';
+import { filterProducts, setCurrentUser, setDrawer, setProducts } from '../redux/appSlice';
 import { toast } from 'react-toastify';
 import productService from '../services/ProductService';
 import { ProductType } from '../types/Types';
@@ -43,6 +43,10 @@ function Navbar() {
         }
     }
 
+    const openDrawer = () => {
+        dispatch(setDrawer(true))
+    }
+
     return (
         <AppBar position="static">
             <Toolbar>
@@ -70,8 +74,8 @@ function Navbar() {
                         )
                     }}
                     variant='standard' />
-                <Badge badgeContent={basket.length} color="secondary" style={{ margin: '0 8px 0 12px' }}>
-                    <FaShoppingBasket style={{ fontSize: '18px', cursor: 'pointer' }} />
+                <Badge badgeContent={basket.length} color="secondary" style={{ margin: '0 8px 0 12px', cursor: 'pointer' }} >
+                    <FaShoppingBasket onClick={openDrawer} style={{ fontSize: '18px', cursor: 'pointer' }} />
                 </Badge>
                 <Button sx={{ textTransform: 'none' }} color="inherit" onClick={logout} >Cikis Yap</Button>
             </Toolbar>

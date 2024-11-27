@@ -3,10 +3,12 @@ import { ProductType } from "../types/Types"
 
 export interface BasketSliceType {
     basket: ProductType[]
+    totalAmount: number
 }
 
 const initialState: BasketSliceType = {
-    basket: []
+    basket: [],
+    totalAmount: 0
 }
 
 const basketSlice = createSlice({
@@ -30,9 +32,18 @@ const basketSlice = createSlice({
         },
         setBasket: (state: BasketSliceType, action: PayloadAction<ProductType[]>) => {
             state.basket = [...action.payload];
+        },
+        calculateBasket: (state: BasketSliceType) => {
+            let totalAmount: number = 0;
+            state.basket && state.basket.map((product: ProductType) => {
+                if (product.count) {
+                    totalAmount += Number(product.price) * product.count;
+                }
+            })
+            state.totalAmount = totalAmount;
         }
     }
 })
 
-export const { addProductToBasket, setBasket } = basketSlice.actions
+export const { addProductToBasket, setBasket, calculateBasket } = basketSlice.actions
 export default basketSlice.reducer
